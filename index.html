@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine Surprise</title>
+<style>
+body {
+    margin:0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg,#8b0000,#c2185b);
+    color:white;
+    text-align:center;
+    overflow:hidden;
+}
+
+.screen {
+    position:absolute;
+    width:100%;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    transition:0.8s ease;
+}
+
+.hidden { display:none; }
+
+button {
+    padding:12px 20px;
+    margin:10px;
+    border:none;
+    border-radius:25px;
+    background:white;
+    color:#c2185b;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.envelope {
+    width:200px;
+    height:140px;
+    background:#f8c8dc;
+    position:relative;
+    border-radius:8px;
+}
+
+.envelope:before {
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    border-left:100px solid transparent;
+    border-right:100px solid transparent;
+    border-bottom:70px solid #ff6f91;
+}
+
+.gift-box {
+    width:90px;
+    height:90px;
+    background:#ff6f91;
+    margin:15px;
+    display:inline-block;
+    border-radius:10px;
+}
+
+.flow-heart {
+    position:absolute;
+    color:rgba(255,255,255,0.5);
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh); }
+    100% { transform: translateY(-10vh); }
+}
+
+.bouquet {
+    font-size:70px;
+}
+
+.hug {
+    font-size:60px;
+}
+</style>
+</head>
+<body>
+
+<!-- AUDIO -->
+<audio id="bgMusic" autoplay loop>
+    <source src="perfect.mp3" type="audio/mpeg">
+</audio>
+
+<!-- SCREEN 1 -->
+<div class="screen" id="welcome">
+    <h1>HAPPY VALENTINES DAY!</h1>
+    <h2>OPEN WITH SMILE, DEAR JANAK 🤍</h2>
+    <button onclick="openEnvelope()">Open</button>
+</div>
+
+<!-- SCREEN 2 -->
+<div class="screen hidden" id="envelopeScreen">
+    <div class="envelope"></div>
+    <p style="padding:20px;">
+    My love, this little surprise carries feelings deeper than words.
+    Open these gifts slowly… each one holds a piece of my heart.
+    </p>
+    <button onclick="openGifts()">Go To Gift Station</button>
+</div>
+
+<!-- SCREEN 3 -->
+<div class="screen hidden" id="giftStation">
+    <h2>Gift Station 🎁</h2>
+    <div class="gift-box" onclick="gift1()"></div>
+    <div class="gift-box" onclick="gift2()"></div>
+    <div class="gift-box" onclick="gift3()"></div>
+</div>
+
+<!-- GIFT 1 -->
+<div class="screen hidden" id="gift1Screen">
+    <h2>If I had to choose again...</h2>
+    <p>I would still choose you. In every lifetime. In every universe. 🤍</p>
+    <button onclick="back()">Back</button>
+</div>
+
+<!-- GIFT 2 -->
+<div class="screen hidden" id="gift2Screen">
+    <div class="bouquet">💐</div>
+    <p>Like Rajnigandha, your love fills my life softly… beautifully… endlessly.</p>
+    <button onclick="back()">Back</button>
+</div>
+
+<!-- GIFT 3 -->
+<div class="screen hidden" id="gift3Screen">
+    <h2>Choose Your Hug 🤗</h2>
+    <button onclick="showHug('soft')">Soft Hug 🤍</button>
+    <button onclick="showHug('tight')">Tight Hug ❤️</button>
+    <button onclick="showHug('forever')">Forever Hug 💞</button>
+    <div id="hugResult"></div>
+    <button onclick="back()">Back</button>
+</div>
+
+<script>
+function openEnvelope(){
+    switchScreen("welcome","envelopeScreen");
+}
+
+function openGifts(){
+    switchScreen("envelopeScreen","giftStation");
+}
+
+function gift1(){
+    switchScreen("giftStation","gift1Screen");
+}
+
+function gift2(){
+    switchScreen("giftStation","gift2Screen");
+}
+
+function gift3(){
+    switchScreen("giftStation","gift3Screen");
+}
+
+function back(){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.add('hidden'));
+    document.getElementById("giftStation").classList.remove('hidden');
+}
+
+function switchScreen(current,next){
+    document.getElementById(current).classList.add('hidden');
+    document.getElementById(next).classList.remove('hidden');
+}
+
+function showHug(type){
+    let text="";
+    if(type==="soft") text="Come here… let me hold you gently 🤍";
+    if(type==="tight") text="No escaping… this is a tight one ❤️";
+    if(type==="forever") text="Staying like this forever 💞";
+    document.getElementById("hugResult").innerHTML="<div class='hug'>🤗</div><p>"+text+"</p>";
+}
+
+/* Floating Hearts */
+setInterval(()=>{
+    let heart=document.createElement("div");
+    heart.className="flow-heart";
+    heart.innerHTML="❤";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(20+Math.random()*20)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+},800);
+</script>
+
+</body>
+</html>
