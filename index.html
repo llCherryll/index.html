@@ -8,19 +8,17 @@ body{
   margin:0;
   font-family:'Segoe UI',sans-serif;
   text-align:center;
-  background:#ffc0cb; /* Pink background */
+  background:#ffc0cb;
   color:white;
   overflow:hidden;
   position:relative;
 }
-
-h1,h2{margin:10px 0;}
+h1,h2,p{margin:10px;}
 .slide-title{
   font-size:1.5em;
   margin-bottom:20px;
   font-weight:bold;
 }
-
 .section{
   min-height:100vh;
   display:flex;
@@ -29,7 +27,6 @@ h1,h2{margin:10px 0;}
   align-items:center;
   padding:20px;
 }
-
 button{
   padding:12px 20px;
   margin:10px;
@@ -41,11 +38,9 @@ button{
   color:white;
   transition:0.3s;
 }
-
 button:hover{
   transform:scale(1.05);
 }
-
 /* Gift boxes */
 .gift-container{
   display:flex;
@@ -54,11 +49,10 @@ button:hover{
   gap:15px;
   margin-top:20px;
 }
-
 .gift-box{
-  width:100px;
-  height:100px;
-  background:#fff0f5;
+  width:90px;
+  height:90px;
+  background:linear-gradient(135deg,#fff0f5,#ffd1dc);
   color:#ff2e63;
   display:flex;
   justify-content:center;
@@ -68,18 +62,37 @@ button:hover{
   cursor:pointer;
   transition:0.3s;
   box-shadow:0 0 15px rgba(255,0,120,0.6);
+  position:relative;
 }
-
-.gift-box:hover{
-  transform:scale(1.1);
+.gift-box:before{
+  content:"🎁";
+  position:absolute;
+  top:-10px;
+  font-size:30px;
 }
-
-/* Content sections */
-.hidden{
+.gift-box:hover{transform:scale(1.1);}
+.gift-slide{
   display:none;
+  min-height:100vh;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  background:#ffc0cb;
+  border-radius:15px;
 }
-
-/* Envelope animation */
+/* Back button */
+.back-btn{
+  margin-top:20px;
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  background:#ff2e63;
+  color:white;
+  cursor:pointer;
+  font-size:16px;
+}
+/* Envelope */
 #envelope{
   width:120px;
   height:80px;
@@ -93,8 +106,11 @@ button:hover{
   color:#ff2e63;
   box-shadow:0 0 15px rgba(255,0,120,0.6);
   margin-top:20px;
+  transition:0.5s;
 }
-
+#envelope.open{
+  transform:scale(1.2) rotateX(180deg);
+}
 /* Floating hearts */
 .heart{
   position:absolute;
@@ -103,73 +119,97 @@ button:hover{
   opacity:0.7;
   pointer-events:none;
 }
-
 @keyframes floatUp{
   from{transform:translateY(100vh) scale(0.5); opacity:1;}
   to{transform:translateY(-10vh) scale(1.2); opacity:0;}
 }
-
+/* Hug buttons */
+.hug-btn{
+  display:none;
+  margin:5px;
+  font-size:16px;
+}
+/* Bouquet animation */
+#bouquet{
+  position:relative;
+  width:100px;
+  height:150px;
+}
+.petal{
+  position:absolute;
+  bottom:0;
+  width:20px;
+  height:20px;
+  background:#fff;
+  border-radius:50%;
+  opacity:0;
+  transform:scale(0) rotate(0deg);
+  animation:petalAnim 1s forwards;
+}
+@keyframes petalAnim{
+  0%{transform:scale(0) rotate(0deg); opacity:0;}
+  50%{transform:scale(1) rotate(180deg); opacity:0.8;}
+  100%{transform:scale(1) rotate(360deg); opacity:1;}
+}
 </style>
 </head>
 <body>
 
-<audio id="loveSong" loop>
-  <source src="https://files.catbox.moe/p3oe9y.mp3" type="audio/mpeg">
-</audio>
+<!-- YouTube music -->
+<div style="display:none;">
+<iframe id="ytMusic" width="0" height="0" src="https://www.youtube.com/embed/2Vv-BfVoq4g?autoplay=1&mute=0&loop=1&playlist=2Vv-BfVoq4g" frameborder="0" allow="autoplay" ></iframe>
+</div>
 
-<!-- INTRO SCREEN -->
+<!-- INTRO -->
 <div id="intro" class="section">
   <h1>Happy Valentine’s Day My Love, Janak 💖</h1>
   <div id="envelope">💌 Tap to Open Envelope</div>
 </div>
 
-<!-- GIFT SECTION -->
-<div id="gifts" class="section hidden">
+<!-- MAIN GIFT BOX SCREEN -->
+<div id="giftScreen" class="section hidden">
   <h2 class="slide-title">Open for a cute surprise 💝</h2>
   <div class="gift-container">
     <div class="gift-box" id="gift1">Gift Box 1</div>
     <div class="gift-box" id="gift2">Gift Box 2</div>
     <div class="gift-box" id="gift3">Gift Box 3</div>
   </div>
+</div>
 
-  <!-- Hidden content for each gift -->
-  <div id="content1" class="hidden">
-    <p>“If I had to choose again, in every lifetime, in every universe… I would still choose you. You are my calm, my chaos, and my forever.”</p>
-  </div>
-  <div id="content2" class="hidden">
-    <p>“Like the fragrance of rajnigandha, your love fills my life quietly… beautifully… endlessly.”</p>
-    <!-- bouquet animation placeholder -->
-    <div>💐</div>
-  </div>
-  <div id="content3" class="hidden">
-    <p>Choose a hug style 💞</p>
-    <button onclick="hugMessage('Soft Hug 🤍')">Soft Hug 🤍</button>
-    <button onclick="hugMessage('Tight Hug ❤️')">Tight Hug ❤️</button>
-    <button onclick="hugMessage('Long Forever Hug 💞')">Long Forever Hug 💞</button>
-    <div id="hugMsg"></div>
-  </div>
+<!-- GIFT 1 SLIDE -->
+<div id="slide1" class="gift-slide">
+  <h2>Gift Box 1 💌</h2>
+  <p>“If I had to choose again, in every lifetime… I would still choose you. You are my calm, my chaos, and my forever.”</p>
+  <button class="back-btn" onclick="backToGifts()">Back</button>
+</div>
 
-  <!-- Valentine proposal at end -->
-  <div id="proposal" class="hidden" style="margin-top:30px;">
-    <h2>Will you be my Valentine? 💖</h2>
-    <button onclick="sayYes()" class="yes">YES 💖</button>
-    <button id="noBtn" class="no">NO</button>
-  </div>
+<!-- GIFT 2 SLIDE -->
+<div id="slide2" class="gift-slide">
+  <h2>Gift Box 2 💐</h2>
+  <p>“Like the fragrance of rajnigandha, your love fills my life quietly… beautifully… endlessly.”</p>
+  <div id="bouquet"></div>
+  <button class="back-btn" onclick="backToGifts()">Back</button>
+</div>
+
+<!-- GIFT 3 SLIDE (HUG) -->
+<div id="slide3" class="gift-slide">
+  <h2>Gift Box 3 🤗</h2>
+  <p id="hugText">Choose a hug 💞</p>
+  <button class="hug-btn" id="hug1" onclick="nextHug(1)">Soft Hug 🤍</button>
+  <button class="hug-btn" id="hug2" onclick="nextHug(2)">Tight Hug ❤️</button>
+  <button class="hug-btn" id="hug3" onclick="nextHug(3)">Long Forever Hug 💞</button>
+  <div id="hugAnimation" style="font-size:50px; margin:20px;"></div>
+  <button class="back-btn" onclick="backToGifts()">Back</button>
+</div>
+
+<!-- VALENTINE PROPOSAL -->
+<div id="proposal" class="gift-slide">
+  <h2>Will you be my Valentine? 💖</h2>
+  <button onclick="sayYes()" class="yes">YES 💖</button>
+  <button id="noBtn" class="no">NO</button>
 </div>
 
 <script>
-
-/* Music auto play after envelope opens */
-let envelope = document.getElementById('envelope');
-let gifts = document.getElementById('gifts');
-let loveSong = document.getElementById('loveSong');
-
-envelope.addEventListener('click',()=>{
-  document.getElementById('intro').classList.add('hidden');
-  gifts.classList.remove('hidden');
-  loveSong.play();
-});
-
 /* Floating hearts */
 function createHeart(){
   const heart = document.createElement('div');
@@ -183,43 +223,54 @@ function createHeart(){
 }
 setInterval(createHeart,300);
 
-/* Gift boxes unlocking content */
-document.getElementById('gift1').addEventListener('click',()=>{
-  document.getElementById('content1').classList.toggle('hidden');
+/* Envelope tap -> gift screen */
+let envelope = document.getElementById('envelope');
+let gifts = document.getElementById('giftScreen');
+envelope.addEventListener('click',()=>{
+  document.getElementById('intro').classList.add('hidden');
+  gifts.classList.remove('hidden');
+  envelope.classList.add('open');
+  document.getElementById('ytMusic').src += "&autoplay=1";
 });
 
-document.getElementById('gift2').addEventListener('click',()=>{
-  document.getElementById('content2').classList.toggle('hidden');
-});
+/* Show/Hide slides */
+function showSlide(id){ gifts.classList.add('hidden'); hideAllSlides(); document.getElementById(id).style.display='flex';}
+function backToGifts(){ hideAllSlides(); gifts.classList.remove('hidden'); resetHug();}
+function hideAllSlides(){ document.querySelectorAll('.gift-slide').forEach(s=>s.style.display='none'); }
 
-document.getElementById('gift3').addEventListener('click',()=>{
-  document.getElementById('content3').classList.toggle('hidden');
-});
-
-/* Hug messages */
-function hugMessage(text){
-  document.getElementById('hugMsg').innerText = "Come here… let me hold you a little longer. ("+text+")";
-  document.getElementById('proposal').classList.remove('hidden');
+/* Hug animations */
+function resetHug(){
+  document.getElementById('hug1').style.display='inline-block';
+  document.getElementById('hug2').style.display='none';
+  document.getElementById('hug3').style.display='none';
+  document.getElementById('hugAnimation').innerHTML='';
+  document.getElementById('hugText').innerText='Choose a hug 💞';
+}
+function showHug1(){ resetHug(); }
+function nextHug(step){
+  let anim = document.getElementById('hugAnimation');
+  if(step===1){anim.innerHTML='🤍 Soft Hug...'; document.getElementById('hug1').style.display='none'; document.getElementById('hug2').style.display='inline-block';}
+  else if(step===2){anim.innerHTML='❤️ Tight Hug...'; document.getElementById('hug2').style.display='none'; document.getElementById('hug3').style.display='inline-block';}
+  else if(step===3){anim.innerHTML='💞 Long Forever Hug...'; document.getElementById('hug3').style.display='none'; setTimeout(()=>{showSlide('proposal');},1000);}
 }
 
 /* Moving NO button */
 let noBtn = document.getElementById("noBtn");
-noBtn.addEventListener("mouseover", function(){
-  noBtn.style.top = Math.random()*50+"px";
-  noBtn.style.left = Math.random()*200+"px";
-});
+noBtn.addEventListener("mouseover", function(){noBtn.style.top = Math.random()*50+"px"; noBtn.style.left = Math.random()*200+"px";});
 
 /* YES ending */
-function sayYes(){
-  document.body.innerHTML=`
-    <div style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;">
-      <h1>I knew it 😌❤️</h1>
-      <h2>Tumhare hi rahenge hum ♾️</h2>
-      <h2>Happy Valentine's Day 💖</h2>
-    </div>
-  `;
-}
+function sayYes(){ document.body.innerHTML=`<div style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;"><h1>I knew it 😌❤️</h1><h2>Tumhare hi rahenge hum ♾️</h2><h2>Happy Valentine's Day 💖</h2></div>`; }
 
-</script>
-</body>
-</html>
+/* Gift box clicks */
+document.getElementById('gift1').addEventListener('click',()=>{showSlide('slide1');});
+document.getElementById('gift2').addEventListener('click',()=>{showSlide('slide2'); bouquetBloom();});
+document.getElementById('gift3').addEventListener('click',()=>{showSlide('slide3'); showHug1();});
+
+/* Rajnigandha bouquet bloom animation */
+function bouquetBloom(){
+  let bouquet = document.getElementById('bouquet');
+  bouquet.innerHTML='';
+  for(let i=0;i<7;i++){
+    let petal = document.createElement('div');
+    petal.classList.add('petal');
+    petal.style.left = 40 + Math.random()*
