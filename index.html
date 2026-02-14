@@ -1,196 +1,225 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valentine Surprise</title>
+<title>Happy Valentine’s Day, Janak 💖</title>
 <style>
-body {
-    margin:0;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg,#8b0000,#c2185b);
-    color:white;
-    text-align:center;
-    overflow:hidden;
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  text-align:center;
+  background:#ffc0cb; /* Pink background */
+  color:white;
+  overflow:hidden;
+  position:relative;
 }
 
-.screen {
-    position:absolute;
-    width:100%;
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    transition:0.8s ease;
+h1,h2{margin:10px 0;}
+.slide-title{
+  font-size:1.5em;
+  margin-bottom:20px;
+  font-weight:bold;
 }
 
-.hidden { display:none; }
-
-button {
-    padding:12px 20px;
-    margin:10px;
-    border:none;
-    border-radius:25px;
-    background:white;
-    color:#c2185b;
-    font-weight:bold;
-    cursor:pointer;
+.section{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
 }
 
-.envelope {
-    width:200px;
-    height:140px;
-    background:#f8c8dc;
-    position:relative;
-    border-radius:8px;
+button{
+  padding:12px 20px;
+  margin:10px;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+  font-size:16px;
+  background:#ff2e63;
+  color:white;
+  transition:0.3s;
 }
 
-.envelope:before {
-    content:"";
-    position:absolute;
-    top:0;
-    left:0;
-    border-left:100px solid transparent;
-    border-right:100px solid transparent;
-    border-bottom:70px solid #ff6f91;
+button:hover{
+  transform:scale(1.05);
 }
 
-.gift-box {
-    width:90px;
-    height:90px;
-    background:#ff6f91;
-    margin:15px;
-    display:inline-block;
-    border-radius:10px;
+/* Gift boxes */
+.gift-container{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:15px;
+  margin-top:20px;
 }
 
-.flow-heart {
-    position:absolute;
-    color:rgba(255,255,255,0.5);
-    animation: float 6s linear infinite;
+.gift-box{
+  width:100px;
+  height:100px;
+  background:#fff0f5;
+  color:#ff2e63;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border-radius:15px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+  box-shadow:0 0 15px rgba(255,0,120,0.6);
 }
 
-@keyframes float {
-    0% { transform: translateY(100vh); }
-    100% { transform: translateY(-10vh); }
+.gift-box:hover{
+  transform:scale(1.1);
 }
 
-.bouquet {
-    font-size:70px;
+/* Content sections */
+.hidden{
+  display:none;
 }
 
-.hug {
-    font-size:60px;
+/* Envelope animation */
+#envelope{
+  width:120px;
+  height:80px;
+  background:#fff0f5;
+  border-radius:10px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  cursor:pointer;
+  font-weight:bold;
+  color:#ff2e63;
+  box-shadow:0 0 15px rgba(255,0,120,0.6);
+  margin-top:20px;
 }
+
+/* Floating hearts */
+.heart{
+  position:absolute;
+  color:#ff2e63;
+  animation:floatUp linear infinite;
+  opacity:0.7;
+  pointer-events:none;
+}
+
+@keyframes floatUp{
+  from{transform:translateY(100vh) scale(0.5); opacity:1;}
+  to{transform:translateY(-10vh) scale(1.2); opacity:0;}
+}
+
 </style>
 </head>
 <body>
 
-<!-- AUDIO -->
-<audio id="bgMusic" autoplay loop>
-    <source src="perfect.mp3" type="audio/mpeg">
+<audio id="loveSong" loop>
+  <source src="https://files.catbox.moe/p3oe9y.mp3" type="audio/mpeg">
 </audio>
 
-<!-- SCREEN 1 -->
-<div class="screen" id="welcome">
-    <h1>HAPPY VALENTINES DAY!</h1>
-    <h2>OPEN WITH SMILE, DEAR JANAK 🤍</h2>
-    <button onclick="openEnvelope()">Open</button>
+<!-- INTRO SCREEN -->
+<div id="intro" class="section">
+  <h1>Happy Valentine’s Day My Love, Janak 💖</h1>
+  <div id="envelope">💌 Tap to Open Envelope</div>
 </div>
 
-<!-- SCREEN 2 -->
-<div class="screen hidden" id="envelopeScreen">
-    <div class="envelope"></div>
-    <p style="padding:20px;">
-    My love, this little surprise carries feelings deeper than words.
-    Open these gifts slowly… each one holds a piece of my heart.
-    </p>
-    <button onclick="openGifts()">Go To Gift Station</button>
-</div>
+<!-- GIFT SECTION -->
+<div id="gifts" class="section hidden">
+  <h2 class="slide-title">Open for a cute surprise 💝</h2>
+  <div class="gift-container">
+    <div class="gift-box" id="gift1">Gift Box 1</div>
+    <div class="gift-box" id="gift2">Gift Box 2</div>
+    <div class="gift-box" id="gift3">Gift Box 3</div>
+  </div>
 
-<!-- SCREEN 3 -->
-<div class="screen hidden" id="giftStation">
-    <h2>Gift Station 🎁</h2>
-    <div class="gift-box" onclick="gift1()"></div>
-    <div class="gift-box" onclick="gift2()"></div>
-    <div class="gift-box" onclick="gift3()"></div>
-</div>
+  <!-- Hidden content for each gift -->
+  <div id="content1" class="hidden">
+    <p>“If I had to choose again, in every lifetime, in every universe… I would still choose you. You are my calm, my chaos, and my forever.”</p>
+  </div>
+  <div id="content2" class="hidden">
+    <p>“Like the fragrance of rajnigandha, your love fills my life quietly… beautifully… endlessly.”</p>
+    <!-- bouquet animation placeholder -->
+    <div>💐</div>
+  </div>
+  <div id="content3" class="hidden">
+    <p>Choose a hug style 💞</p>
+    <button onclick="hugMessage('Soft Hug 🤍')">Soft Hug 🤍</button>
+    <button onclick="hugMessage('Tight Hug ❤️')">Tight Hug ❤️</button>
+    <button onclick="hugMessage('Long Forever Hug 💞')">Long Forever Hug 💞</button>
+    <div id="hugMsg"></div>
+  </div>
 
-<!-- GIFT 1 -->
-<div class="screen hidden" id="gift1Screen">
-    <h2>If I had to choose again...</h2>
-    <p>I would still choose you. In every lifetime. In every universe. 🤍</p>
-    <button onclick="back()">Back</button>
-</div>
-
-<!-- GIFT 2 -->
-<div class="screen hidden" id="gift2Screen">
-    <div class="bouquet">💐</div>
-    <p>Like Rajnigandha, your love fills my life softly… beautifully… endlessly.</p>
-    <button onclick="back()">Back</button>
-</div>
-
-<!-- GIFT 3 -->
-<div class="screen hidden" id="gift3Screen">
-    <h2>Choose Your Hug 🤗</h2>
-    <button onclick="showHug('soft')">Soft Hug 🤍</button>
-    <button onclick="showHug('tight')">Tight Hug ❤️</button>
-    <button onclick="showHug('forever')">Forever Hug 💞</button>
-    <div id="hugResult"></div>
-    <button onclick="back()">Back</button>
+  <!-- Valentine proposal at end -->
+  <div id="proposal" class="hidden" style="margin-top:30px;">
+    <h2>Will you be my Valentine? 💖</h2>
+    <button onclick="sayYes()" class="yes">YES 💖</button>
+    <button id="noBtn" class="no">NO</button>
+  </div>
 </div>
 
 <script>
-function openEnvelope(){
-    switchScreen("welcome","envelopeScreen");
+
+/* Music auto play after envelope opens */
+let envelope = document.getElementById('envelope');
+let gifts = document.getElementById('gifts');
+let loveSong = document.getElementById('loveSong');
+
+envelope.addEventListener('click',()=>{
+  document.getElementById('intro').classList.add('hidden');
+  gifts.classList.remove('hidden');
+  loveSong.play();
+});
+
+/* Floating hearts */
+function createHeart(){
+  const heart = document.createElement('div');
+  heart.classList.add('heart');
+  heart.innerHTML='❤️';
+  heart.style.left=Math.random()*100+'vw';
+  heart.style.animationDuration=(3+Math.random()*3)+'s';
+  heart.style.fontSize=(15+Math.random()*25)+'px';
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+}
+setInterval(createHeart,300);
+
+/* Gift boxes unlocking content */
+document.getElementById('gift1').addEventListener('click',()=>{
+  document.getElementById('content1').classList.toggle('hidden');
+});
+
+document.getElementById('gift2').addEventListener('click',()=>{
+  document.getElementById('content2').classList.toggle('hidden');
+});
+
+document.getElementById('gift3').addEventListener('click',()=>{
+  document.getElementById('content3').classList.toggle('hidden');
+});
+
+/* Hug messages */
+function hugMessage(text){
+  document.getElementById('hugMsg').innerText = "Come here… let me hold you a little longer. ("+text+")";
+  document.getElementById('proposal').classList.remove('hidden');
 }
 
-function openGifts(){
-    switchScreen("envelopeScreen","giftStation");
+/* Moving NO button */
+let noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("mouseover", function(){
+  noBtn.style.top = Math.random()*50+"px";
+  noBtn.style.left = Math.random()*200+"px";
+});
+
+/* YES ending */
+function sayYes(){
+  document.body.innerHTML=`
+    <div style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;">
+      <h1>I knew it 😌❤️</h1>
+      <h2>Tumhare hi rahenge hum ♾️</h2>
+      <h2>Happy Valentine's Day 💖</h2>
+    </div>
+  `;
 }
 
-function gift1(){
-    switchScreen("giftStation","gift1Screen");
-}
-
-function gift2(){
-    switchScreen("giftStation","gift2Screen");
-}
-
-function gift3(){
-    switchScreen("giftStation","gift3Screen");
-}
-
-function back(){
-    document.querySelectorAll('.screen').forEach(s=>s.classList.add('hidden'));
-    document.getElementById("giftStation").classList.remove('hidden');
-}
-
-function switchScreen(current,next){
-    document.getElementById(current).classList.add('hidden');
-    document.getElementById(next).classList.remove('hidden');
-}
-
-function showHug(type){
-    let text="";
-    if(type==="soft") text="Come here… let me hold you gently 🤍";
-    if(type==="tight") text="No escaping… this is a tight one ❤️";
-    if(type==="forever") text="Staying like this forever 💞";
-    document.getElementById("hugResult").innerHTML="<div class='hug'>🤗</div><p>"+text+"</p>";
-}
-
-/* Floating Hearts */
-setInterval(()=>{
-    let heart=document.createElement("div");
-    heart.className="flow-heart";
-    heart.innerHTML="❤";
-    heart.style.left=Math.random()*100+"vw";
-    heart.style.fontSize=(20+Math.random()*20)+"px";
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),6000);
-},800);
 </script>
-
 </body>
 </html>
